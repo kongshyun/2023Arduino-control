@@ -8,7 +8,6 @@ void setup(){
     pinMode(6,INPUT);pinMode(7,INPUT);//스위치핀
     pinMode(9,OUTPUT);pinMode(10,OUTPUT);//LED핀
     pinMode(11,OUTPUT);pinMode(12,OUTPUT);
-    Serial.begin(9600);
 
     //초기에 모두 OFF
     digitalWrite(9,LOW);
@@ -23,10 +22,6 @@ void loop(){
     int buttonL=digitalRead(7);
     int buttonR=digitalRead(6);
 
-    //Serial.print("Left Button: ");Serial.println(buttonL);
-    //Serial.print("Right Button: ");Serial.println(buttonR);
-    Serial.println();
-
     //왼쪽스위치
     if (buttonL==1 & buttonR ==0){
         number=0;
@@ -37,39 +32,45 @@ void loop(){
         
         if(number==0) {
             digitalWrite(9,HIGH);
-            Serial.print("number :  ");Serial.println(number);
-            delay(1000);
+            delay(500);number++;
         }
         else if (number==1) {
             digitalWrite(10,HIGH);
-            Serial.print("number :  ");Serial.println(number);
-            delay(1000);
+            delay(500);number++;
             }
         else if (number==2) {
             digitalWrite(11,HIGH);
-            Serial.print("number :  ");
-            Serial.println(number);
-            delay(1000);
+            delay(500);number++;
         }
         else if (number==3) {
             digitalWrite(12,HIGH);
-            Serial.print("number :  ");
-            Serial.println(number);
-            delay(1000);
+            delay(500);number++;
         }
         else if (number==4){
             digitalWrite(9,LOW);
             digitalWrite(10,LOW);
             digitalWrite(11,LOW);
             digitalWrite(12,LOW);
-            Serial.print("number :  ");Serial.println(number);
-            delay(2000);
+            delay(500);number++;
         }
-        Serial.println(number);
-        number++;
-        delay(1000);
+        else if (number==5){
+            for(int i=0;i<4;i++){
+                digitalWrite(i+9,HIGH);
+                delay(100);
+                digitalWrite(i+9,LOW);
+                delay(100);
+
+            }
+            for(int i=3;i>=0;i--){
+                digitalWrite(i+9,HIGH);
+                delay(100);
+                digitalWrite(i+9,LOW);
+                delay(100);
+            }
+            delay(500);number++;
+        }
+        else if (number>5){
+            number=0;
+        }
     }
-    
-    
-   
 }

@@ -20,23 +20,36 @@
 #define STEP_IN3 4
 #define STEP_IN4 5
 
-//스텝모터 선언
-Stepper stepper(STEPS_360, STEP_IN1, STEP_IN3, STEP_IN2, STEP_IN4);       
+#define STEP2_IN1 6
+#define STEP2_IN2 7
+#define STEP2_IN3 8
+#define STEP2_IN4 9
 
-int Control=A0;//가변저항 아날로그 핀설정
-int Steps;
-int motorSpeed;
+//스텝모터 선언
+Stepper stepper1(STEPS_360, STEP_IN1, STEP_IN3, STEP_IN2, STEP_IN4);       
+Stepper stepper2(STEPS_360, STEP2_IN1, STEP2_IN3, STEP2_IN2, STEP2_IN4);       
+
+int Control1=A0;//가변저항 아날로그 핀설정
+int Control2=A1;//가변저항 아날로그 핀설정
+int motorSpeed1;
+int motorSpeed2;
+
 
 void setup() {
   Serial.begin(9600);
 }
 void loop() {
 
-  Control = analogRead(A0);
-  motorSpeed=map(Control,0,1023,0,20);
-  if(motorSpeed>0){
-    stepper.setSpeed(motorSpeed); //모터회전속도
-    stepper.step(-100); // Rotate angle as Steps
-  }
+  Control1 = analogRead(A0);
+  Control2 = analogRead(A1);
+  motorSpeed1=map(Control1,0,1023,0,20);
+  motorSpeed2=map(Control2,0,1023,0,20);
+    stepper1.setSpeed(motorSpeed1); //모터회전속도
+    stepper2.setSpeed(motorSpeed2); //모터회전속도
+
+    stepper1.step(-100); // Rotate angle as Steps
+    
+    stepper2.step(-100); // Rotate angle as Steps
+  
   delay(10);
 }
