@@ -1,3 +1,5 @@
+//스텝모터 2개 상황별 제어
+//5개의 스위치로 상황 설정(전진, 후진, 좌회전, 우회전 ,정지)
 
 #include <AccelStepper.h>
 #include <SoftwareSerial.h>
@@ -30,7 +32,7 @@ int button1=2;//전진
 int button2=3;//후진
 int button3=12;//좌회전
 int button4=13;//우회전
-int button5=1;//정지
+int button5=A0;//정지
 
 void setup() {
   
@@ -119,8 +121,7 @@ void loop() {
       break;
       */
     case '1': //정지
-      Serial.print(controlKey);
-      Serial.println("STOP");
+     
       stepper1.stop(); //motor stop
       stepper2.stop();
       stepper1.disableOutputs(); //motor power disconnect, so motor led will turn off
