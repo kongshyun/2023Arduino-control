@@ -1,5 +1,5 @@
 {
     "port": "COM4",
     "board": "arduino:avr:uno",
-    "sketch": "LED\\pull_down\\pull_down.ino"
+    "sketch": "LED_basic\\pull_up\\pull_up.ino"
 }

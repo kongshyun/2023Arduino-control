@@ -44,12 +44,14 @@ void loop() {
   Control2 = analogRead(A1);
   motorSpeed1=map(Control1,0,1023,0,20);
   motorSpeed2=map(Control2,0,1023,0,20);
-    stepper1.setSpeed(motorSpeed1); //모터회전속도
-    stepper2.setSpeed(motorSpeed2); //모터회전속도
 
+  if (motorSpeed1>0){
+    stepper1.setSpeed(motorSpeed1); //모터회전속도
     stepper1.step(-100); // Rotate angle as Steps
-    
+  }
+  else if (motorSpeed2>0){
+    stepper2.setSpeed(motorSpeed2); //모터회전속도
     stepper2.step(-100); // Rotate angle as Steps
-  
+  }
   delay(10);
 }
