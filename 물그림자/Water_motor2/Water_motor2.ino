@@ -107,6 +107,7 @@ void loop() {
 
   //State값에따라 모터 상황 설정 변수contorlkey 에 넣기.
   controlKey=State;//State 초기값은 0으로 switch문에서 default로 들어간다.
+  Serial.println("키 입력전 = 왼쪽: " + String(start_left_position)+", 오른쪽: "+String(start_right_position));
 
   switch (controlKey) {
 
@@ -115,7 +116,7 @@ void loop() {
       Serial.println(controlKey);
       for(;;){
         Go(Degree45,Degree45);
-        if(digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+        if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
           Serial.println("BUTTON!!");
           return;//for문을 빠져나간다.
         }
@@ -127,7 +128,7 @@ void loop() {
       Serial.println(controlKey);
       for(;;){
         Go(Degree90,Degree90);
-        if(digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+        if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
           Serial.println("BUTTON!!");
           return;//for문을 빠져나간다.
         }
@@ -135,19 +136,21 @@ void loop() {
       break;//switch 문을 빠져나간다.
 
     //세번째 스위치(180도 시계방향 회전)
-    case 'a': 
+    case 'a':
+      break;
       
 
     //네번째 스위치(360도 반시계방향 회전)
     case 'd': 
+      break;
 
     case '1': //정지
       Zero();
-      long error_left=stepper1.currentPosition();
-      long error_right=stepper2.currentPosition();
-      Serial.println("State '1' Zero 위치 = 왼쪽: " + String(error_left)+"오른쪽: "+String(error_right));
-      //stepper1.moveTo(-error_left);//스텝모터이동할위치설정
-      stepper2.moveTo(-error_right);
+      long error_l=stepper1.currentPosition();
+      long error_r=stepper2.currentPosition();
+      Serial.println("State '1' Zero 위치 = 왼쪽: " + String(error_l)+"오른쪽: "+String(error_r));
+      stepper1.moveTo(-error_l);//스텝모터이동할위치설정
+      stepper2.moveTo(-error_r);
       while (stepper2.distanceToGo()<-3 && stepper2.distanceToGo()>3) {
         stepper2.run();
         stepper1.run();
@@ -163,7 +166,6 @@ void loop() {
       stepper2.stop();
       stepper1.disableOutputs();
       stepper2.disableOutputs();
-      
       break;
   }
 }
@@ -175,17 +177,17 @@ void Go(int LeftPosition, int RightPosition){
   long start_right=stepper2.currentPosition();
   Serial.println("Go 시작 위치 = 왼쪽: " + String(start_left)+", 오른쪽: "+String(start_right));
 
-  stepper1.moveTo(LeftPosition);//스텝모터이동할위치설정
-  stepper2.moveTo(RightPosition);
-  while (stepper1.distanceToGo() != 0 && stepper2.distanceToGo()!=0 ) {
+  stepper1.move(LeftPosition);//스텝모터이동할위치설정
+  stepper2.move(RightPosition);
+  while (stepper1.distanceToGo()!=0 && stepper2.distanceToGo()!=0 ) {
     stepper1.run();
     stepper2.run();
     if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
       return;//while문을 빠져나간다.
     }
   }
-  stepper2.moveTo(-RightPosition);//스텝모터이동할위치설정
-  stepper1.moveTo(-LeftPosition);//스텝모터이동할위치설정
+  stepper2.move(-RightPosition);//스텝모터이동할위치설정
+  stepper1.move(-LeftPosition);//스텝모터이동할위치설정
   while (stepper2.distanceToGo() != 0 && stepper1.distanceToGo()!=0 ) {
     stepper2.run();
     stepper1.run();
@@ -195,11 +197,15 @@ void Go(int LeftPosition, int RightPosition){
   }
   
 }
+
+void Back(){
+  
+}
 //원점위치로가는함수
 void Zero(){
   stepper1.moveTo(start_left_position);
   stepper2.moveTo(start_right_position);
-  while (stepper2.distanceToGo() <3 && stepper1.distanceToGo() != 0) {
+  while (stepper2.distanceToGo() !=0 && stepper1.distanceToGo() != 0) {
     stepper1.run();
     stepper2.run();
   }

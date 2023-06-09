@@ -25,13 +25,11 @@ void setup() {
 }
 
 void loop() {
-stepper.disableOutputs();
+  stepper.disableOutputs();
   // 스텝모터 회전
-  stepper.moveTo(-30);     // 목표 위치 설정
-  while (stepper.distanceToGo() != 0) {
-    
-    stepper.run();
-  }
+  stepper.moveTo(-30);
+  stepper.run();
+  
   // 현재 위치 읽어오기
   long currentPosition = stepper.currentPosition();
   Serial.println("현재 위치1: " + String(currentPosition));
