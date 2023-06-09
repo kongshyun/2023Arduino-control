@@ -105,7 +105,7 @@ void loop() {
       for(;;){
         _CW(800,800,Degree45);//속도 800으로 45도 시계방향 회전
         _CCW(800,800,-Degree45);//속도 800으로 45도 반시계방향 회전
-        if(digitalRead(button1)||digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+        if(digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
           stepper1.setCurrentPosition(0);
           stepper2.setCurrentPosition(0);
           return;

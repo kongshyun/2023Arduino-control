@@ -8,7 +8,7 @@
 -360도 반시계 방향회전
 -정지
 
-+ 영점맞추기
+++++ 영점맞추기(정지버튼에 넣기)
 
 */
 
@@ -40,23 +40,6 @@ int button3=12;
 int button4=13;
 int button5=A0;
 
-//초기설정
-void setup() {
-  
-  //모터 최대속도 설정.
-  stepper1.setMaxSpeed(2000.0);
-  stepper2.setMaxSpeed(2000.0);
-  Serial.begin(9600);
-
-  //스위치 핀 INPUT모드로 설정.
-  pinMode(button1,INPUT);
-  pinMode(button2,INPUT);
-  pinMode(button3,INPUT);
-  pinMode(button4,INPUT);
-  pinMode(button5,INPUT);
-}
-
-
 unsigned char State;//모터 상황변수 문자정의.
 
 //각도별 스텝수 정의
@@ -66,6 +49,32 @@ int Degree180=2048; //180도
 int Degree270=3072; //270도
 int Degree360 = 4096;//한바퀴 스텝수
 
+
+
+//초기설정
+void setup() {
+  
+  //모터 최대속도 설정.
+  stepper1.setMaxSpeed(2000.0);
+  stepper2.setMaxSpeed(2000.0);
+  stepper1.setAcceleration(1000.0); // 가속도 설정
+  stepper2.setAcceleration(1000.0); // 가속도 설정
+
+  Serial.begin(9600);
+
+  //스위치 핀 INPUT모드로 설정.
+  pinMode(button1,INPUT);
+  pinMode(button2,INPUT);
+  pinMode(button3,INPUT);
+  pinMode(button4,INPUT);
+  pinMode(button5,INPUT);
+  Serial.println("정지상태= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));//현재 스텝각 읽어오기
+  State='0';//switch문에서 default로간다.
+}
+
+int start_left_position=stepper1.currentPosition();//초기 왼쪽 위치
+int start_right_position=stepper2.currentPosition();//초기 오른쪽 위치
+
 void loop() {
 
   //스위치 핀 상태 읽어오기
@@ -74,7 +83,7 @@ void loop() {
   int button3_state=digitalRead(button3);//좌회전
   int button4_state=digitalRead(button4);//우회전
   int button5_state=digitalRead(button5);//정지
-  delay(10);
+  delay(15);
 
   //스위치 입력에 따라 구분하여 State변경
   if (button1_state==1){
@@ -97,68 +106,104 @@ void loop() {
   }
 
   //State값에따라 모터 상황 설정 변수contorlkey 에 넣기.
-  controlKey=State;
+  controlKey=State;//State 초기값은 0으로 switch문에서 default로 들어간다.
 
-
-  //controlKey값에 따라 case별로 함수 실행.
   switch (controlKey) {
 
     //첫번째 스위치
-    case 'w': //정해진각도안에서 왔다갔다 반복
+    case 'w':
+      Serial.println(controlKey);
       for(;;){
-        _CW(800,800,Degree45);//속도 800으로 45도 시계방향 회전
-        _CCW(800,800,-Degree45);//속도 800으로 45도 반시계방향 회전
-        if(digitalRead(button1)||digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
-          stepper1.setCurrentPosition(0);
-          stepper2.setCurrentPosition(0);
-          return;
+        Go(Degree45,Degree45);
+        if(digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+          Serial.println("BUTTON!!");
+          return;//for문을 빠져나간다.
         }
       }
-      break;
+      break;//switch 문을 빠져나간다.
 
     //두번째 스위치
     case 's': 
+      Serial.println(controlKey);
       for(;;){
-        _CW(800,800,Degree90);//속도 800으로 90도 시계방향 회전
-        _CCW(800,800,-Degree90);//속도 800으로 90도 반시계방향 회전
-        if(digitalRead(button1)||digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
-          stepper1.setCurrentPosition(0);
-          stepper2.setCurrentPosition(0);
-          return;
+        Go(Degree90,Degree90);
+        if(digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+          Serial.println("BUTTON!!");
+          return;//for문을 빠져나간다.
         }
       }
-      break;
-  
+      break;//switch 문을 빠져나간다.
+
     //세번째 스위치(180도 시계방향 회전)
     case 'a': 
-      for(;;){
-        _CW(900,900,Degree180);//속도 800으로 180도 시계방향 회전
-        _CCW(900,900,-Degree180);//속도 800으로 180도 반시계방향 회전
-        if(digitalRead(button1)||digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
-          stepper1.setCurrentPosition(0);
-          stepper2.setCurrentPosition(0);
-          return;
-        }
-      }
-      break;
+      
 
     //네번째 스위치(360도 반시계방향 회전)
     case 'd': 
-      _CCW(800,800,-Degree360);
-      break;
-    
+
     case '1': //정지
-      stepper1.stop(); //motor stop
-      stepper2.stop();
-      stepper1.disableOutputs();
-      stepper2.disableOutputs();
-      controlKey = '0';
+      Zero();
+      long error_left=stepper1.currentPosition();
+      long error_right=stepper2.currentPosition();
+      Serial.println("State '1' Zero 위치 = 왼쪽: " + String(error_left)+"오른쪽: "+String(error_right));
+      //stepper1.moveTo(-error_left);//스텝모터이동할위치설정
+      stepper2.moveTo(-error_right);
+      while (stepper2.distanceToGo()<-3 && stepper2.distanceToGo()>3) {
+        stepper2.run();
+        stepper1.run();
+        Serial.println("HI");
+      }
+      Serial.println("erorr복구 Zero 위치 = 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
+      State='0';
       break;
 
     //contorlKey가 0일때는(즉 정지상태일때)switch 문 빠져나감.
     default :
+      stepper1.stop(); //motor stop
+      stepper2.stop();
+      stepper1.disableOutputs();
+      stepper2.disableOutputs();
+      
       break;
   }
+}
+
+//모터움직임함수 Go(왼쪽모터위치, 오른쪽모터위치), 위치는 스텝각으로 넣기
+void Go(int LeftPosition, int RightPosition){
+  
+  long start_left=stepper1.currentPosition();
+  long start_right=stepper2.currentPosition();
+  Serial.println("Go 시작 위치 = 왼쪽: " + String(start_left)+", 오른쪽: "+String(start_right));
+
+  stepper1.moveTo(LeftPosition);//스텝모터이동할위치설정
+  stepper2.moveTo(RightPosition);
+  while (stepper1.distanceToGo() != 0 && stepper2.distanceToGo()!=0 ) {
+    stepper1.run();
+    stepper2.run();
+    if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+      return;//while문을 빠져나간다.
+    }
+  }
+  stepper2.moveTo(-RightPosition);//스텝모터이동할위치설정
+  stepper1.moveTo(-LeftPosition);//스텝모터이동할위치설정
+  while (stepper2.distanceToGo() != 0 && stepper1.distanceToGo()!=0 ) {
+    stepper2.run();
+    stepper1.run();
+    if(digitalRead(button1)||digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
+      return;//while문을 빠져나간다.
+    }
+  }
+  
+}
+//원점위치로가는함수
+void Zero(){
+  stepper1.moveTo(start_left_position);
+  stepper2.moveTo(start_right_position);
+  while (stepper2.distanceToGo() <3 && stepper1.distanceToGo() != 0) {
+    stepper1.run();
+    stepper2.run();
+  }
+  Serial.println("ZERO!!");
 }
 
 //시계방향으로 회전
