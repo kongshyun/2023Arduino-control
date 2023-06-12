@@ -7,26 +7,35 @@ void setup() {
   pinMode(motorPin1, OUTPUT);
   pinMode(motorPin2, OUTPUT);
 }
-int maxSpeed=255;
+int maxSpeed=255;//속도 130아래로 안떨어짐
 
 void loop() {
-  // 속도를 75%로 설정하여 모터 회전 (최대 속도의 75%)
-  motorControl(130); // 0부터 255까지의 범위에서 75%에 해당하는 값
-  delay(250); // 2초 동안 회전
 
-  //속도를 75%로 설정하여 모터 회전 (최대 속도의 75%)
-  motorControl_Revert(130); // 0부터 255까지의 범위에서 75%에 해당하는 값
-  delay(1000); // 2초 동안 회전
+  motorControl(130,1000);//정방향
+  motorControl_Stop(1000);
+  motorControl_Revert(130,1000);//역방향
+  motorControl_Stop(1000);
+
 }
 
-// 모터 제어 함수
-void motorControl(int speed) {
+//시계방향회전(속도, 시간)
+void motorControl(int speed, int time) {
   analogWrite(motorPin1, speed);  // IN1 핀에 PWM 신호로 속도 설정
   digitalWrite(motorPin2, LOW);  // IN2 핀 LOW
+  delay(time);
 }
 
-void motorControl_Revert(int speed) {
+//반시계방향회전
+void motorControl_Revert(int speed,int time) {
   analogWrite(motorPin1, LOW);  // IN1 핀에 PWM 신호로 속도 설정
   digitalWrite(motorPin2, speed);  // IN2 핀 LOW
+  delay(time);
 }
-                                                                                  
+
+//정지
+void motorControl_Stop(int time) {
+  analogWrite(motorPin1, LOW);  // IN1 핀에 PWM 신호로 속도 설정
+  digitalWrite(motorPin2, LOW);  // IN2 핀 LOW
+  delay(time);
+}
+                                                                                                                                                       

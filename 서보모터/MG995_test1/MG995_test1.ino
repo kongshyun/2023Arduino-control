@@ -15,5 +15,3 @@ void loop() {
   servo.write(val);//서보모터를 지정한 각도로 이동
   delay(15);//일시적인 딜레이
 }
-
- 

@@ -1,5 +1,5 @@
 {
     "port": "COM11",
     "board": "arduino:avr:uno",
-    "sketch": "모터\\DC_basic\\DC_basic.ino"
+    "sketch": "모터\\DC_jh\\DC_jh.ino"
 }
