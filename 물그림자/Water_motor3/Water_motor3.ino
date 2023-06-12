@@ -111,15 +111,14 @@ void loop() {
 
   switch (State) {
 
-    //첫번째 스위치
+    //첫번째 스위치 45도 반복, 다른버튼입력시 원점으로 돌아간 후 실행
     case 'w':
       Serial.println("State = "+String(State));
       _Zero();
       for(;;){
         _Go(800,800,Degree45);//속도 800으로 45도 시계방향 회전
-        Serial.println("시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
+        //Serial.println("시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
         _Go(800,800,0);//속도 800으로 45도 반시계방향 회전
-        Serial.println("반시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
         if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
           Serial.println("BUTTON!!");
           return;//for문을 빠져나간다.
@@ -127,15 +126,13 @@ void loop() {
       }
       break;//switch 문을 빠져나간다.
 
-    //두번째 스위치
+    //두번째 스위치 90도 반복, 다른버튼입력시 원점으로 돌아간 후 실행
     case 's':
       Serial.println("State = "+String(State));
       _Zero();
       for(;;){
         _Go(800,800,Degree90);//속도 800으로 90도 시계방향 회전
-        Serial.println("시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
         _Go(800,800,0);//속도 800으로 45도 반시계방향 회전
-        Serial.println("반시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
         if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
           Serial.println("BUTTON!!");
           return;//for문을 빠져나간다.
@@ -143,28 +140,18 @@ void loop() {
       }
       break;//switch 문을 빠져나간다.
   
-    //세번째 스위치
+    //세번째 스위치 계속 회전
     case 'a':
       Serial.println("State = "+String(State));
       _Zero();
-      _Rotation(800,800,1);
-      Serial.println("시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
+      _Rotation(800,800,2);
       break;//switch 문을 빠져나간다.
   
-    //네번째 스위치
+    //네번째 스위치 다른속도로 회전
     case 'd':
       Serial.println("State = "+String(State));
       _Zero();
-      for(;;){
-        _Go(800,800,Degree270);//속도 800으로 45도 시계방향 회전
-        Serial.println("시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
-        _Go(800,800,0);//속도 800으로 45도 반시계방향 회전
-        Serial.println("반시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
-        if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
-          Serial.println("BUTTON!!");
-          return;//for문을 빠져나간다.
-        }
-      }
+      _Rotation(400,400,-2);
       break;//switch 문을 빠져나간다.
   
     case '1': //정지
@@ -215,37 +202,22 @@ void _Rotation(int leftspeed,int rightspeed,int Position) {  //foreward
     if(stepper1.currentPosition()==4096 && stepper2.currentPosition()==4096){
       stepper1.setCurrentPosition(0);
       stepper2.setCurrentPosition(0);
-      Zero_state=0;
     }
-    else if((stepper1.currentPosition()>2048 && stepper1.currentPosition()<4096)&& (stepper2.currentPosition()<4096 && stepper2.currentPosition()>2048)){
-      Serial.println("Revert Zero");
-      Zero_state=1;
-    }
-    else
-      Zero_state='0';
     if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
       Serial.println("BUTTON!!");
       return;//for문을 빠져나간다.
     }
-   
-
-
   }
 }
+
 //원점위치로가는함수
 void _Zero(){
   Serial.println("Zero_state=  "+String(Zero_state));
   for(;;){
-    stepper1.setSpeed(500);//모터속도 설정
-    stepper2.setSpeed(500);
-    if(Zero_state=='0'){
-      stepper1.moveTo(start_left_position);//모터 이동할 각도 설정
-      stepper2.moveTo(start_right_position);
-    }
-    else if (Zero_state=='1'){
-      stepper1.moveTo(4096);//모터 이동할 각도 설정
-      stepper2.moveTo(4096);
-    }
+    stepper1.setSpeed(800);//모터속도 설정
+    stepper2.setSpeed(800);
+    stepper1.moveTo(start_left_position);//모터 이동할 각도 설정
+    stepper2.moveTo(start_right_position);
     stepper1.runSpeedToPosition();//가속없이 현재속도로 실행하는 함수
     stepper2.runSpeedToPosition();
     
@@ -255,46 +227,6 @@ void _Zero(){
       stepper1.setCurrentPosition(0);
       stepper2.setCurrentPosition(0);
       Serial.println("Zero!!");
-      return;
-    }
-  }
-}
-//반바퀴 넘어가면 가까운쪽으로 회전하여 원점으로 돌아간다.
-void _ZeroRevert(){
-  for(;;){
-    stepper1.setSpeed(500);//모터속도 설정
-    stepper2.setSpeed(500);
-    stepper1.moveTo(4096);//모터 이동할 각도 설정
-    stepper2.moveTo(4096);
-    stepper1.runSpeedToPosition();//가속없이 현재속도로 실행하는 함수
-    stepper2.runSpeedToPosition();
-    
-    //정해진 위치까지 다 이동했으면 빠져나가기
-    if ((stepper1.distanceToGo()==0)and(stepper2.distanceToGo()==0)){
-      Serial.println("원점위치= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
-      stepper1.setCurrentPosition(0);
-      stepper2.setCurrentPosition(0);
-      Serial.println("Revert Zero!!");
-      return;
-    }
-  }
-}
-
-//반시계방향으로 회전
-void _CCW(int leftspeed,int rightspeed, int degree) { //Left ForeWard
-  for (;;) {
-    stepper1.setSpeed(leftspeed);
-    stepper2.setSpeed(rightspeed);
-    stepper1.moveTo(degree);
-    stepper2.moveTo(degree);
-    stepper1.runSpeedToPosition();
-    stepper2.runSpeedToPosition();
-    //다른버튼입력이 들어오면 나가기
-    if(digitalRead(button1)||digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
-      return;
-    }
-    else if ((stepper1.distanceToGo()==0)and(stepper2.distanceToGo()==0)){
-      State='1';
       return;
     }
   }
