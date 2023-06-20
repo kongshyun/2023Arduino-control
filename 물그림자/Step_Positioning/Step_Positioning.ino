@@ -113,7 +113,7 @@ void loop() {
 
     //첫번째 스위치 45도 반복, 다른버튼입력시 원점으로 돌아간 후 실행
     case 'w':
-      _Go(0,100,-50);//속도 800으로 45도 시계방향 회전
+      _Go(200,0,-100);//속도 800으로 45도 시계방향 회전
       stepper1.setCurrentPosition(0);
       stepper2.setCurrentPosition(0);
       break;//switch 문을 빠져나간다.

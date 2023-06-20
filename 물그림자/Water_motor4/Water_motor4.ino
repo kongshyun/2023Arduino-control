@@ -12,6 +12,9 @@
 
 ++++ 예외처리하기(버튼 동시입력 등)
 
+
+setSpeed(속도): 속도단위 (스텝/초)
+
 */
 
 
@@ -32,6 +35,7 @@
 //스텝모터 설정
 AccelStepper stepper1(HALFSTEP, mtrPin1, mtrPin3, mtrPin2, mtrPin4);
 AccelStepper stepper2(HALFSTEP, mtrPin_1, mtrPin_3, mtrPin_2, mtrPin_4);
+
 //스위치 핀 정의
 int button1=2;
 int button2=3;
