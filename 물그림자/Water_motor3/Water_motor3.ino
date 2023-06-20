@@ -69,8 +69,8 @@ void setup() {
   stepper2.setCurrentPosition(0);
 }
 
-int start_left_position=stepper1.currentPosition();//초기 왼쪽 위치
-int start_right_position=stepper2.currentPosition();//초기 오른쪽 위치
+int start_left_position=0;//초기 왼쪽 위치
+int start_right_position=0;//초기 오른쪽 위치
 
 char Zero_state='0';
 
@@ -117,6 +117,7 @@ void loop() {
       _Zero();
       for(;;){
         _Go(800,800,Degree45);//속도 800으로 45도 시계방향 회전
+        delay(500);
         //Serial.println("시계후= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
         _Go(800,800,0);//속도 800으로 45도 반시계방향 회전
         if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
@@ -132,6 +133,7 @@ void loop() {
       _Zero();
       for(;;){
         _Go(800,800,Degree90);//속도 800으로 90도 시계방향 회전
+        delay(500);
         _Go(800,800,0);//속도 800으로 45도 반시계방향 회전
         if(digitalRead(button1)|| digitalRead(button2)||digitalRead(button3)||digitalRead(button4)||digitalRead(button5)){
           Serial.println("BUTTON!!");
@@ -144,7 +146,7 @@ void loop() {
     case 'a':
       Serial.println("State = "+String(State));
       _Zero();
-      _Rotation(800,800,2);
+      _Rotation(400,400,2); 
       break;//switch 문을 빠져나간다.
   
     //네번째 스위치 다른속도로 회전
@@ -212,18 +214,20 @@ void _Rotation(int leftspeed,int rightspeed,int Position) {  //foreward
 
 //원점위치로가는함수
 void _Zero(){
+  int error1=stepper1.currentPosition();
+  int error2=stepper2.currentPosition();
+
   Serial.println("Zero_state=  "+String(Zero_state));
   for(;;){
     stepper1.setSpeed(800);//모터속도 설정
     stepper2.setSpeed(800);
-    stepper1.moveTo(start_left_position);//모터 이동할 각도 설정
-    stepper2.moveTo(start_right_position);
+    stepper1.moveTo(0);//모터 이동할 각도 설정
+    stepper2.moveTo(0);
     stepper1.runSpeedToPosition();//가속없이 현재속도로 실행하는 함수
     stepper2.runSpeedToPosition();
     
     //정해진 위치까지 다 이동했으면 빠져나가기
     if ((stepper1.distanceToGo()==0)and(stepper2.distanceToGo()==0)){
-      Serial.println("원점위치= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));
       stepper1.setCurrentPosition(0);
       stepper2.setCurrentPosition(0);
       Serial.println("Zero!!");

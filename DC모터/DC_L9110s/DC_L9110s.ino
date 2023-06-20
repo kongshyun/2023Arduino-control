@@ -1,11 +1,15 @@
 // 모터 핀 정의
 const int motorPin1 = 2;  // L9110S 드라이버 IN1 핀
 const int motorPin2 = 3;  // L9110S 드라이버 IN2 핀
+const int motorPin3 = 4;  // L9110S 드라이버 IN1 핀
+const int motorPin4 = 5;  // L9110S 드라이버 IN2 핀
 
 void setup() {
   // 모터 핀을 출력으로 설정
   pinMode(motorPin1, OUTPUT);
   pinMode(motorPin2, OUTPUT);
+  pinMode(motorPin3, OUTPUT);
+  pinMode(motorPin4, OUTPUT);
 }
 int maxSpeed=255;//속도 130아래로 안떨어짐
 
