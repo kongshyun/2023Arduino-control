@@ -1,6 +1,6 @@
 // 모터 핀 정의
-const int motorPin1 = 2;  // L9110S 드라이버 IN1 핀
-const int motorPin2 = 3;  // L9110S 드라이버 IN2 핀
+const int motorPin1 = 4;  // L9110S 드라이버 IN1 핀
+const int motorPin2 = 5;  // L9110S 드라이버 IN2 핀
 const int motorPin3 = 4;  // L9110S 드라이버 IN1 핀
 const int motorPin4 = 5;  // L9110S 드라이버 IN2 핀
 
