@@ -2,7 +2,7 @@
 #include <Servo.h>
 
 Servo myServo; // Servo 객체 생성
-int angle[8]={0,45,90,135,180, 135, 45, 0};
+int angle[8]={0,45,90,135,180, 135, 90, 45};
 
 int button5=A0;
 
@@ -11,14 +11,22 @@ void setup() {
   myServo.attach(9); // 5 번핀 사용
   Serial.begin(9600);
   Serial.println("Hello");
+
 }
 
+int i =0;
 void loop() {
+
   if (digitalRead(button5)==1){
-    for(int i=0;i<8;i++){
       Serial.println("Angle = "+ String(angle[i]));
       myServo.write(angle[i]);
-      delay(2000);
-    }
+      i++;
+      delay(1000);
   }
+  if(i>7) {
+    Serial.println("END");
+    i=0;
+  }
+
+
 }
