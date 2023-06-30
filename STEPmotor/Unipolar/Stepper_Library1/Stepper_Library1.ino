@@ -15,7 +15,7 @@ b입력 -> 반시계방향으로 한바퀴
 const int stepsPerRevolution = 200;//한바퀴 스텝수
 
 // Create Instance of Stepper library
-Stepper myStepper(stepsPerRevolution, 3, 4, 6, 7);
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
 
 
 void setup()
