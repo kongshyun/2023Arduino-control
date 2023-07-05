@@ -22,10 +22,10 @@
 #define mtrPin2  10     // IN2 on the ULN2003 driver 1
 #define mtrPin3  9     // IN3 on the ULN2003 driver 1
 #define mtrPin4  8     // IN4 on the ULN2003 driver 1
-#define mtrPin_1  7     // IN1 on the ULN2003 driver 2
-#define mtrPin_2  6     // IN2 on the ULN2003 driver 2
-#define mtrPin_3  5     // IN3 on the ULN2003 driver 2
-#define mtrPin_4  4     // IN4 on the ULN2003 driver 2
+#define mtrPin_1  3     // IN1 on the ULN2003 driver 2
+#define mtrPin_2  4     // IN2 on the ULN2003 driver 2
+#define mtrPin_3  6     // IN3 on the ULN2003 driver 2
+#define mtrPin_4  7     // IN4 on the ULN2003 driver 2
 
 //스텝모터 설정
 AccelStepper stepper1(HALFSTEP, mtrPin1, mtrPin3, mtrPin2, mtrPin4);
@@ -108,7 +108,23 @@ void loop() {
     State='1';
     delay(1000);
   }
-
+  else if (Serial.available()){
+    char state =Serial.read();
+    if(state=='1'){
+      for(;;){
+        stepper1.setSpeed(leftspeed);//모터속도 설정
+        stepper2.setSpeed(rightspeed);
+        stepper1.moveTo(Position);//모터 이동할 각도 설정
+        stepper2.moveTo(Position);
+        stepper1.runSpeedToPosition();//가속없이 현재속도로 실행하는 함수
+        stepper2.runSpeedToPosition();
+        //정해진 위치까지 다 이동했으면 빠져나가기
+        if ((stepper1.distanceToGo()==0)and(stepper2.distanceToGo()==0)){
+          return;
+        }
+      }
+    }
+  }
   switch (State) {
 
     //첫번째 스위치 45도 반복, 다른버튼입력시 원점으로 돌아간 후 실행
@@ -132,7 +148,6 @@ void loop() {
       }
       break;//switch 문을 빠져나간다.
   
-    //세번째 스위치 계속 회전
     case 'a':
       Serial.println("State = "+String(State));
       _Zero();

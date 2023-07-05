@@ -24,8 +24,7 @@ Stepper Stepper2(stepsPerRevolution2, 8, 9, 10, 11);
 void setup()                                                                                                                                                                    
 {
 	// set the speed at 60 rpm:
-	Stepper1.setSpeed(60);                               
-  Stepper2.setSpeed(60);
+	Stepper1.setSpeed(30);     
 	// initialize the serial port:
 	Serial.begin(9600);
 }
@@ -37,14 +36,7 @@ void loop() {
     state=Serial.read();
     if (state=='a'){
       Serial.println(String(state));
-      for(int i=0;i<stepsPerRevolution;i++){
-        
-      }
-    }
-    if (state=='d'){
-      Serial.println(String(state));
-      Stepper1.step(-stepsPerRevolution1);
-      Stepper2.step(-stepsPerRevolution2);
+      Stepper1.step(400);
     }
   }
 }
