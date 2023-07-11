@@ -37,7 +37,7 @@ void loop() {
   Serial.println(count);
 
   if (now - prev == 1) {
-    if (count > 2) {
+    if (count > 3) {
       count = 0;
     } else {
       count++;
@@ -50,11 +50,13 @@ void loop() {
 
   } else {
     if (count == 1) {
-      speed = 30;
+      speed = 10;
     } else if (count == 2) {
-      speed = 60;
+      speed = 30;
     } else if (count == 3) {
-      speed = 120;
+      speed = 60;
+    } else if (count == 4) {
+      speed = 100;
     }
     Stepper1.step(1);  //200스텝, 1바퀴
   }
