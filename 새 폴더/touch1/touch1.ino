@@ -6,9 +6,8 @@ bool touchFlag = false;       // 터치 상태를 저장하는 변수 (false: �
 void setup() {
   digitalWrite(ledPin, LOW);
   pinMode(touchSensorPin, INPUT); // 락킹터치 센서의 핀을 입력으로 설정
-  pinMode(ledPin, OUTPUT);        // LED의 핀을 출력으로 설정
+  pinMode(ledPin, OUTPUT);     // LED의 핀을 출력으로 설정
   
-  Serial.begin(9600);
 }
 
 void loop() {
@@ -19,9 +18,7 @@ void loop() {
     ledState = !ledState;
     digitalWrite(ledPin, ledState);
     touchFlag = true;
-    Serial.println("TOUCHED");
   } else if (touchState == LOW) {            // 터치 안된 경우
     touchFlag = false;
-    Serial.println("NOT TOUCHED");
   }
 }
