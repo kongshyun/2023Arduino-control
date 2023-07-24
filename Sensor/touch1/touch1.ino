@@ -1,5 +1,5 @@
 const int touchSensorPin = A5; // 락킹터치 센서의 OUT 핀을 아두이노의 2번 핀에 연결
-const int ledPin = 13;        // LED를 아두이노의 13번 핀에 연결
+const int ledPin = 9;        // LED를 아두이노의 13번 핀에 연결
 bool ledState = false;        // LED의 상태를 저장하는 변수 (false: 꺼짐, true: 켜짐)
 bool touchFlag = false;       // 터치 상태를 저장하는 변수 (false: 터치 안 함, true: 터치 함)
 
@@ -22,3 +22,4 @@ void loop() {
     touchFlag = false;
   }
 }
+  
