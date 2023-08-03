@@ -24,7 +24,7 @@ void setup()
   digitalWrite(DirPIN, HIGH); 
   digitalWrite(ClkPIN, LOW); 
   digitalWrite(Sm1PIN, LOW);  // Set Micro stepping to 1/8
-  digitalWrite(Sm2PIN, HIGH);  //스탭모드를 L H(1/8)로 설정
+  digitalWrite(Sm2PIN, LOW);  //스탭모드를 L H(1/8)로 설정
   digitalWrite(EnvPIN, HIGH);   // 모터 구동부 Enable
   
   myStepper.setSpeed(350);// set the motor speed (for multiple steps only):
