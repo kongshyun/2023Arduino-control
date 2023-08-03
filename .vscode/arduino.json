@@ -1,5 +1,5 @@
 {
     "port": "COM11",
     "board": "arduino:avr:uno",
-    "sketch": "모터\\DC_jh\\DC_jh.ino"
+    "sketch": "StepMotor\\AM-MS2 driver\\nema17_1\\nema17_1.ino"
 }
