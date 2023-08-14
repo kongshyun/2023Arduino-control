@@ -71,7 +71,7 @@ void setup() {
   pinMode(button3,INPUT);
   pinMode(button4,INPUT);
   pinMode(button5,INPUT);
-  Serial.println("초기값= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition()));//현재 스텝각 읽어오기
+  Serial.println("초기값= 왼쪽: " + String(stepper1.currentPosition())+", 오른쪽: "+String(stepper2.currentPosition())); //현재 스텝각 읽어오기
   State='0';//switch문에서 default로간다.
   stepper1.setCurrentPosition(0);
   stepper2.setCurrentPosition(0);
