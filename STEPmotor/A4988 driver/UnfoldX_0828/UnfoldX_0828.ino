@@ -1,53 +1,33 @@
+/*
+스텝모터 제어코드
+1바퀴=200스텝
+속도단위 steps/seconds = 0.3 rpm,    60rpm=200steps/seconds
+*/
+
 #include <AccelStepper.h>
  
-// Define stepper motor connections and motor interface type. Motor interface type must be set to 1 when using a driver:
 #define dirPin 2
-#define stepPin 3
+#define stepPin 3`
 #define motorInterfaceType 1
- 
-// Create a new instance of the AccelStepper class:
-AccelStepper stepper = AccelStepper(motorInterfaceType, stepPin, dirPin);
- 
+const int steps[ ]={30,40,100,0,150,200,400};//스텝수 배열
+const int speed[ ]={50,100,100,0,100,60,50};//속도배열
+const int time[ ]={1000,1000,1000,5000,1000,1000};//지연시간배열
+AccelStepper stepper = AccelStepper(motorInterfaceType, stepPin, dirPin); //핀설정
+int i=0; 
 void setup() {
-  // Set the maximum speed in steps per second:
   stepper.setMaxSpeed(1000);
+  
 }
- 
-void loop() 
-{ 
-  // Set the current position to 0:
+
+void loop() {
   stepper.setCurrentPosition(0);
- 
-  // Run the motor forward at 200 steps/second until the motor reaches 400 steps (2 revolutions):
-  while(stepper.currentPosition() != 400)
+  if(i>7) i=0;
+  while(stepper.currentPosition() != steps[i])
   {
-    stepper.setSpeed(200);
+    stepper.setSpeed(speed[i]);
     stepper.runSpeed();
   }
- 
-  delay(1000);
- 
-  // Reset the position to 0:
-  stepper.setCurrentPosition(0);
- 
-  // Run the motor backwards at 600 steps/second until the motor reaches -200 steps (1 revolution):
-  while(stepper.currentPosition() != -200) 
-  {
-    stepper.setSpeed(-600);
-    stepper.runSpeed();
-  }
- 
-  delay(1000);
- 
-  // Reset the position to 0:
-  stepper.setCurrentPosition(0);
- 
-  // Run the motor forward at 400 steps/second until the motor reaches 600 steps (3 revolutions):
-  while(stepper.currentPosition() != 600)
-  {
-    stepper.setSpeed(400);
-    stepper.runSpeed();
-  }
- 
-  delay(3000);
+  
+  delay(time[i]);
+  i++;
 }
