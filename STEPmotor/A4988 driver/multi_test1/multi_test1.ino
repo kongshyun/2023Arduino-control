@@ -9,16 +9,12 @@
 #define dirPin 2
 #define stepPin 3
 #define motorInterfaceType 1
-const int steps[ ]={200};//스텝수 배열
-const int speed[ ]={200};//속도배열
-const int time[ ]={1000};//지연시간배열
+const int steps[ ]={30,40,100,0,150,200,400};//스텝수 배열
+const int speed[ ]={50,100,100,0,100,60,50};//속도배열
+const int time[ ]={1000,1000,1000,5000,1000,1000};//지연시간배열
 AccelStepper stepper = AccelStepper(motorInterfaceType, stepPin, dirPin); //핀설정
-int i=0;
-
+int i=0; 
 void setup() {
-  pinMode(12,OUTPUT);
-  pinMode(11,OUTPUT);
-  pinMode(10,OUTPUT);
   stepper.setMaxSpeed(1000);
   
 }
@@ -34,5 +30,4 @@ void loop() {
   
   delay(time[i]);
   i++;
-
 }

@@ -32,21 +32,4 @@ void loop()
       stepper.runSpeed();
     }
   }
-  delay(1000);
-  //------------------------------------
-  stepper.setCurrentPosition(0);
-  while(stepper.currentPosition() != -200) 
-  {
-    stepper.setSpeed(-600);
-    stepper.runSpeed();
-  }
-  delay(1000);
-  //------------------------------------
-  stepper.setCurrentPosition(0);
-  while(stepper.currentPosition() != 600)
-  {
-    stepper.setSpeed(400);
-    stepper.runSpeed();
-  }
-  delay(3000);
 }
