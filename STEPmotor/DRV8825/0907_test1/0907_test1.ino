@@ -5,16 +5,18 @@
 
 #define dirPin1 2
 #define stepPin1 3
+
 #define dirPin2 4
 #define stepPin2 5
 #define dirPin3 6
-#define stepPin3 7
+#define stepPin3 17
 #define dirPin4 8
 #define stepPin4 9
 #define dirPin5 10
 #define stepPin5 11
 #define dirPin6 12
 #define stepPin6 13
+
 
 AccelStepper stepper1(AccelStepper::DRIVER, stepPin1, dirPin1);
 AccelStepper stepper2(AccelStepper::DRIVER, stepPin2, dirPin2);
@@ -38,7 +40,6 @@ void loop() {
   if (Serial.available() > 0) {
     char command = Serial.read();
     switch (command) {
-      Serial.println(command);
       case '1': // 시리얼 입력 1일 때
         startMotors(); // 모터 시작
         break;
