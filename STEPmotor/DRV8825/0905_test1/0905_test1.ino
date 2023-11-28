@@ -1,6 +1,4 @@
-/*
-스텝모터 2개 압출기용 제어코드
-
+ /*
 속도단위 steps/seconds
 Full Step (LLL): 1바퀴=200스텝
 Half Step (HLL): 1바퀴=400스텝

@@ -18,7 +18,7 @@ Sixteenth step (HHH): 1바퀴 3200스텝
 AccelStepper stepper1(AccelStepper::DRIVER, stepPin1, dirPin1);
 
 int Ena = 4;
-int Control1=A0;//가변저항 아날로그 핀설정
+int Control1 = A0;//가변저항 아날로그 핀설정
 
 void setup() {
   pinMode(Ena,OUTPUT);
