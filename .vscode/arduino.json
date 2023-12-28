@@ -1,5 +1,5 @@
 {
     "port": "COM11",
     "board": "arduino:avr:uno",
-    "sketch": "StepMotor\\A4988 driver\\0814test1\\0814test1.ino"
+    "sketch": "StepMotor\\DRV8825\\sang11.28\\sang11.28.ino"
 }
