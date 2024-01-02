@@ -35,8 +35,11 @@ AccelStepper stepper6(AccelStepper::DRIVER, stepPin6, dirPin6);
 int motorSpeed=1000;
 int Steps=1600;
 
+int Ena = 4;
+int Control1=A0;//가변저항 아날로그 핀설정
 
 void setup() {
+  
   stepper1.setMaxSpeed(3200);
   stepper2.setMaxSpeed(3200);
   stepper3.setMaxSpeed(3200);
