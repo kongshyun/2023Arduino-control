@@ -69,28 +69,19 @@ void loop() {
       }
     }
     else if (command =='3') { 
-      stepper1.setCurrentPosition(0);//위치 초기화
-      stepper2.setCurrentPosition(0);//위치 초기화
-      while(stepper2.currentPosition()!=Steps and stepper1.currentPosition()!=Steps)//Siteeth step일때 10도 움직임.
+      stepper3.setCurrentPosition(0);//위치 초기화
+      while(stepper3.currentPosition()!=Steps)//Siteeth step일때 10도 움직임.
       {
-        stepper1.setSpeed(motorSpeed);
-        stepper2.setSpeed(motorSpeed);
-        stepper1.run();
-        stepper2.run();
+        stepper3.setSpeed(motorSpeed);
+        stepper3.run();
       }
     }
     else if (command =='4') { 
-      stepper1.setCurrentPosition(0);//위치 초기화
-      stepper2.setCurrentPosition(0);//위치 초기화
-      stepper3.setCurrentPosition(0);//위치 초기화
-      while(stepper3.currentPosition()!=Steps and stepper2.currentPosition()!=Steps and stepper1.currentPosition()!=Steps)//Siteeth step일때 10도 움직임.
+      stepper4.setCurrentPosition(0);//위치 초기화
+      while(stepper4.currentPosition()!=Steps)//Siteeth step일때 10도 움직임.
       {
-        stepper1.setSpeed(motorSpeed);
-        stepper2.setSpeed(motorSpeed);
-        stepper3.setSpeed(motorSpeed);
-        stepper1.run();
-        stepper2.run();
-        stepper3.run();
+        stepper4.setSpeed(motorSpeed);
+        stepper4.run();
       }
     }
     else if (command =='5') { 
