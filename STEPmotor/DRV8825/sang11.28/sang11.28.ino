@@ -23,24 +23,23 @@ const int ena = 6;  // Step핀 설정
 AccelStepper myStepper(AccelStepper::DRIVER, stepPin, dirPin);
 
 void setup() {
-  
+  myStepper.stop();
+  myStepper.disableOutputs();  
   Serial.begin(9600);
-  pinMode(6,OUTPUT);
-  digitalWrite(6,LOW);
 }
 
 void loop() {
-  myStepper.stop();
-  myStepper.disableOutputs();
+
+  
   if (Serial.available()) {
     char command = Serial.read();
-    
-    if (command == '1') {myStepper.setMaxSpeed(12800);  // 최대속도 설정 (단위: 스텝/초)
-      myStepper.setAcceleration(5000); // 가속도 설정 (단위: 스텝/초^2)
-      myStepper.setCurrentPosition(0); // 현재 위치를 0으로 설정
-      myStepper.setSpeed(1000); // 초기 속도 설정 (단위: 스텝/초)
-      myStepper.moveTo(1600);
-      for(int i=0;i<5;i++){//5번 반복
+    myStepper.setCurrentPosition(0); // 현재 위치를 0으로 설정
+    if (command == '1') {myStepper.setMaxSpeed(15000);  // 최대속도 설정 (단위: 스텝/초)
+      myStepper.setAcceleration(10000); // 가속도 설정 (단위: 스텝/초^2)
+      
+      myStepper.setSpeed(600); // 초기 속도 설정 (단위: 스텝/초)
+      myStepper.moveTo(4000);
+      for(int i=0;i<30;i++){//5번 반복
         while (myStepper.distanceToGo() != 0){
           myStepper.run();
         }
@@ -49,7 +48,8 @@ void loop() {
         delay(500);
       }
     }
-    
+  myStepper.stop();
+  myStepper.disableOutputs();  
   }
 }
 

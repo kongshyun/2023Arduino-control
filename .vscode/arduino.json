@@ -1,5 +1,5 @@
 {
     "port": "COM11",
     "board": "arduino:avr:uno",
-    "sketch": "StepMotor\\DRV8825\\sang11.28\\sang11.28.ino"
+    "sketch": "StepMotor\\DRV8825\\0103Firefly_freSet\\0103Firefly_freSet.ino"
 }
