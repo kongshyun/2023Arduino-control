@@ -34,18 +34,18 @@ void loop() {
   if (Serial.available()) {
     char command = Serial.read();
     myStepper.setCurrentPosition(0); // 현재 위치를 0으로 설정
-    if (command == '1') {myStepper.setMaxSpeed(15000);  // 최대속도 설정 (단위: 스텝/초)
-      myStepper.setAcceleration(10000); // 가속도 설정 (단위: 스텝/초^2)
+    if (command == '1') {myStepper.setMaxSpeed(12000);  // 최대속도 설정 (단위: 스텝/초)
+      myStepper.setAcceleration(5000); // 가속도 설정 (단위: 스텝/초^2)
       
-      myStepper.setSpeed(600); // 초기 속도 설정 (단위: 스텝/초)
+      myStepper.setSpeed(300); // 초기 속도 설정 (단위: 스텝/초)
       myStepper.moveTo(4000);
-      for(int i=0;i<30;i++){//5번 반복
+      for(int i=0;i<2;i++){//5번 반복
         while (myStepper.distanceToGo() != 0){
           myStepper.run();
         }
         myStepper.moveTo(-myStepper.currentPosition());
         Serial.println(myStepper.currentPosition());
-        delay(500);
+        delay(1000);
       }
     }
   myStepper.stop();
