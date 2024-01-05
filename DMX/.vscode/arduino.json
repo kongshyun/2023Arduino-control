@@ -1,0 +1,6 @@
+{
+    "port": "COM5",
+    "board": "arduino:avr:nano",
+    "sketch": "0105DMX512_arduino\\0105DMX512_arduino.ino",
+    "configuration": "cpu=atmega328old"
+}
