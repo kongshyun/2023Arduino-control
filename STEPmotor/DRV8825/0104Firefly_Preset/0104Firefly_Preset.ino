@@ -17,15 +17,15 @@ void setup() {
 }
 
 void loop() {
-  int move=1000;//모터 이동할 스텝수
+  int move=4000;//모터 이동할 스텝수
   int num=2; //반복할 회전 횟수
   if (Serial.available()>0) {//시리얼 입력 대기
     char command = Serial.read();
     if (command == '1') {
       Serial.println(myStepper.currentPosition());
-      myStepper.setMaxSpeed(4000);  // 최대속도 설정 (단위: 스텝/초)
-      myStepper.setAcceleration(600); // 가속도 설정 (단위: 스텝/초^2)
-      myStepper.setSpeed(600); // 초기 속도 설정 (단위: 스텝/초)
+      myStepper.setMaxSpeed(20000);  // 최대속도 설정 (단위: 스텝/초)
+      myStepper.setAcceleration(500); // 가속도 설정 (단위: 스텝/초^2)
+      myStepper.setSpeed(10000); // 초기 속도 설정 (단위: 스텝/초)
       int i=0;
       while (i<num){
         myStepper.moveTo(move);
