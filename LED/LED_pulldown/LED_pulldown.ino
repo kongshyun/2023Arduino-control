@@ -3,18 +3,9 @@
 
 void setup(){
     pinMode(11,OUTPUT);
-    pinMode(7,INPUT);
-    Serial.begin(9600);
 }
 
 void loop(){
-    int button=digitalRead(7);
-    Serial.println(button);
-
-    if (button==HIGH){
         digitalWrite(11,HIGH);
-    }
-    else{
-        digitalWrite(11,LOW);
-    }
+        digitalWrite(11,LOW);\
 }

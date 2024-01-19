@@ -27,7 +27,7 @@ int brightness = 0;
 int fadeAmount = 5;
 
 void setup() {
-  Serial.begin(9600);
+  //Serial.begin(9600);
   while (!Serial);
 
   // initialize the DMX library with the universe size
