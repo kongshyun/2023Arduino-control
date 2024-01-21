@@ -23,8 +23,8 @@ void loop() {
     char command = Serial.read();
     if (command == '1') {
       Serial.println(myStepper.currentPosition());
-      myStepper.setMaxSpeed(20000);  // 최대속도 설정 (단위: 스텝/초)
-      myStepper.setAcceleration(500); // 가속도 설정 (단위: 스텝/초^2)
+      myStepper.setMaxSpeed(25000);  // 최대속도 설정 (단위: 스텝/초)
+      myStepper.setAcceleration(1500); // 가속도 설정 (단위: 스텝/초^2)
       myStepper.setSpeed(10000); // 초기 속도 설정 (단위: 스텝/초)
       int i=0;
       while (i<num){
