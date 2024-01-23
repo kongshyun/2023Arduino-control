@@ -26,11 +26,11 @@ const int GreenPin =  6;  // PWM output pin for Green Light.
 const int BluePin =   5;  // PWM output pin for Blue Light.
 
 // This Example receives the 3 values starting with this channel:
-const int startChannel = 0 * 3 + 1;
+const int startChannel = 0 * 4 + 1;
 
-#define RedDefaultLevel   100
-#define GreenDefaultLevel 200
-#define BlueDefaultLevel  255
+#define RedDefaultLevel   0
+#define GreenDefaultLevel 0
+#define BlueDefaultLevel  0
 
 void setup() {
   DMXSerial.init(DMXReceiver);
@@ -39,11 +39,13 @@ void setup() {
   DMXSerial.write(1, 0);
   DMXSerial.write(2, 0);
   DMXSerial.write(3, 0);
+  DMXSerial.write(4, 0);
 
   // enable pwm outputs
   pinMode(RedPin,   OUTPUT); // sets the digital pin as output
   pinMode(GreenPin, OUTPUT);
   pinMode(BluePin,  OUTPUT);
+  pinMode(10,  OUTPUT);
 }
 
 
@@ -53,15 +55,17 @@ void loop() {
 
   if (lastPacket < 5000) {
     // read recent DMX values and set pwm levels
-    analogWrite(RedPin,   DMXSerial.read(startChannel));
-    analogWrite(GreenPin, DMXSerial.read(startChannel + 1));
-    analogWrite(BluePin,  DMXSerial.read(startChannel + 2));
+    analogWrite(RedPin,   DMXSerial.read(400));
+    analogWrite(GreenPin, DMXSerial.read(500));
+    analogWrite(BluePin,  DMXSerial.read(150));
+    analogWrite(10,  DMXSerial.read(200));
 
   } else {
     // Show pure red color, when no data was received since 5 seconds or more.
     analogWrite(RedPin,   RedDefaultLevel);
     analogWrite(GreenPin, GreenDefaultLevel);
     analogWrite(BluePin,  BlueDefaultLevel);
+    analogWrite(10,  0);
   } // if
 }
 
