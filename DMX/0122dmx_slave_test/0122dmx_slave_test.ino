@@ -54,6 +54,7 @@ void _LED_Dim(){
   analogWrite(6, DMXSerial.read(startChannel + 5));
   analogWrite(9,  DMXSerial.read(startChannel + 6));
   analogWrite(10,  DMXSerial.read(startChannel + 7));
+  DMXSerial.init(DMXReceiver);
 }
 
 void _LED_Off(){
