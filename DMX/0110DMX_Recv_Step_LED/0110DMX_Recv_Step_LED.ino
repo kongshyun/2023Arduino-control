@@ -41,7 +41,7 @@ void setup() {
   pinMode(RedPin,   OUTPUT); // sets the digital pin as output
   pinMode(GreenPin, OUTPUT);
   pinMode(BluePin,  OUTPUT);
-  pinMode(SIGNAL,OUTPUT);
+  pinMode(SIGNAL, OUTPUT);
   myStepper.setCurrentPosition(0); //스텝모터 초기화
 }
 

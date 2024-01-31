@@ -4,10 +4,10 @@
 
 // Constants for demo program
 
-const int RedPin =    10;  // PWM output pin for Red Light.
-const int GreenPin =  9;  // PWM output pin for Green Light.
-const int BluePin =   6;  // PWM output pin for Blue Light.
-const int SIGNAL =   5; 
+const int RedPin =    9;  // PWM output pin for Red Light.
+const int GreenPin =  6;  // PWM output pin for Green Light.
+const int BluePin =   5;  // PWM output pin for Blue Light.
+const int SIGNAL =   3; 
 
 // This Example receives the 3 values starting with this channel:
 const int startChannel = 0 * 8 + 1;
@@ -17,10 +17,10 @@ void setup() {
   DMXSerial.init(DMXReceiver);
 
   // enable pwm outputs
-  pinMode(5, OUTPUT); // sets the digital pin as output
+  pinMode(3, OUTPUT); // sets the digital pin as output
+  pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
 }
 
 
@@ -42,15 +42,15 @@ void loop() {
 void _LED_Dim(){
   
   //DMXSerial.init(DMXReceiver);
-  analogWrite(5,   DMXSerial.read(1));
-  analogWrite(6, DMXSerial.read(2));
-  analogWrite(9,  DMXSerial.read(3));
-  analogWrite(10,  DMXSerial.read(4));
+  analogWrite(3,   DMXSerial.read(1));
+  analogWrite(5,  DMXSerial.read(2));
+  analogWrite(6,  DMXSerial.read(3));
+  analogWrite(9,  DMXSerial.read(4));
 }
 
 void _LED_Off(){
+  analogWrite(3, 0);
   analogWrite(5, 0);
   analogWrite(6, 0);
-  analogWrite(9, 0);
-  analogWrite(10,0);
+  analogWrite(9,0);
 }

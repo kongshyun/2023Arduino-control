@@ -13,31 +13,19 @@ const int maxSpeed=25000;
 const int accel=1500;
 const int setSpeed=10000;  
 const int move=4000;//모터 이동할 스텝수
-const int num=2; //반복할 회전 횟수
+const int num=1; //반복할 회전 횟수
 
-// Constants for demo program
-
-const int RedPin =    10;  // PWM output pin for Red Light.
-const int GreenPin =  9;  // PWM output pin for Green Light.
-const int BluePin =   6;  // PWM output pin for Blue Light.
-const int SIGNAL =   5; 
-
-// This Example receives the 3 values starting with this channel:
-const int startChannel = 0 * 17 + 1;
 
 
 void setup() {
   DMXSerial.init(DMXReceiver);
-// set some default values
-  DMXSerial.write(5, 0);
-  DMXSerial.write(6, 0);
-  DMXSerial.write(9, 0);
-  DMXSerial.write(10, 0);
   // enable pwm outputs
   pinMode(5, OUTPUT); // sets the digital pin as output
   pinMode(6, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
+  pinMode(2, OUTPUT);
+  pinMode(4, OUTPUT);
   myStepper.setCurrentPosition(0); //스텝모터 초기화
 
 }
@@ -46,17 +34,27 @@ void setup() {
 void loop() {
  // Calculate how long no data bucket was received
   unsigned long lastPacket = DMXSerial.noDataSince();
+  int signal=DMXSerial.read(16);
   if (lastPacket < 5000) {
     // read recent DMX values and set pwm levels
     _LED_Dim();
-    int signal=DMXSerial.read(16);
     if(signal>150){
       _Stepper_move(move,num);
     }
-    else {
-    _LED_Dim();
-    _Stepper_stop();
+    else if (signal<150){
+      _LED_Dim();
+      pinMode(2, LOW);
+      pinMode(4, LOW);
+      myStepper.stop();
+      myStepper.disableOutputs();  
     }
+  }
+  else {
+    _LED_Off();
+    pinMode(2, LOW);
+    pinMode(4, LOW);
+    myStepper.stop();
+    myStepper.disableOutputs();  
   }
 }
 
@@ -83,6 +81,8 @@ void _Stepper_move(int move , int num){
 }
 
 void _Stepper_stop(){
+  pinMode(2, LOW);
+  pinMode(4, LOW);
     myStepper.stop();
     myStepper.disableOutputs();  
 }
@@ -98,6 +98,8 @@ void _LED_Dim(){
 }
 
 void _LED_Off(){
+  pinMode(2, LOW);
+  pinMode(4, LOW);
   analogWrite(5, 0);
   analogWrite(6, 0);
   analogWrite(9, 0);
