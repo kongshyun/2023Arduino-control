@@ -29,15 +29,12 @@ const int startChannel = 0 * 17 + 1;
 void setup() {
   DMXSerial.init(DMXReceiver);
 // set some default values
-  DMXSerial.write(5, 0);
-  DMXSerial.write(6, 0);
-  DMXSerial.write(9, 0);
-  DMXSerial.write(10, 0);
-  // enable pwm outputs
-  pinMode(5, OUTPUT); // sets the digital pin as output
+  pinMode(3, OUTPUT);
+  pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
   myStepper.setCurrentPosition(0); //스텝모터 초기화
 
 }
@@ -98,8 +95,10 @@ void _LED_Dim(){
 }
 
 void _LED_Off(){
-  analogWrite(5, 0);
+  analogWrite(3,0);
+  analogWrite(5, 0)
   analogWrite(6, 0);
   analogWrite(9, 0);
   analogWrite(10,0);
+  analogWrite(11,0);
 }

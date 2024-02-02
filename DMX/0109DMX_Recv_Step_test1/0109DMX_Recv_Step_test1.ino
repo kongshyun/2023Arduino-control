@@ -63,7 +63,6 @@ void setup() {
   myStepper.setCurrentPosition(0); //스텝모터 초기화
 }
 
-
 void loop() {
  // Calculate how long no data bucket was received
   unsigned long lastPacket = DMXSerial.noDataSince();
@@ -73,7 +72,7 @@ void loop() {
     analogWrite(RedPin,   DMXSerial.read(startChannel));
     analogWrite(GreenPin, DMXSerial.read(startChannel + 1));
     analogWrite(BluePin,  DMXSerial.read(startChannel + 2));
-    int signal=DMXSerial.read(startChannel);
+    int signal=DMXSerial.read(16);
 
     if(signal>150){
       _Stepper_move(move,num);
@@ -86,9 +85,7 @@ void loop() {
     analogWrite(BluePin,  BlueDefaultLevel);
     _Stepper_stop();
   } 
-
 }
-
 
 //스텝모터 구동함수(이동거리, 반복횟수)
 void _Stepper_move(int move , int num){
