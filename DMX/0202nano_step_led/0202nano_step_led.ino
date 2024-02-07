@@ -43,7 +43,7 @@ void loop() {
     if(signal>50 & signal<100){
       _Stepper_move(move,1000, num);
     }
-    else if(signal>105){
+    else if(signal>180){
       _Stepper_move(move,200, num);
     }
   }
