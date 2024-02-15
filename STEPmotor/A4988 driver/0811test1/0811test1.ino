@@ -5,8 +5,8 @@
 #include <AccelStepper.h>
 // Define stepper motor connections and motor interface type. 
 // Motor interface type must be set to 1 when using a driver
-#define dirPin 4
-#define stepPin 5
+#define dirPin 2
+#define stepPin 3
 #define motorInterfaceType 1
 // Create a new instance of the AccelStepper class:
 AccelStepper stepper = AccelStepper(motorInterfaceType, stepPin, dirPin);

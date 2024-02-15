@@ -20,7 +20,7 @@ const int startChannel = 0 * 3 + 1;
 
 // Define pin connections
 const int dirPin = 2;   // Dir핀 설정
-const int stepPin = 3;  // Step핀 설정
+const int stepPin = 4;  // Step핀 설정
 #define motorInterfaceType 1
 AccelStepper myStepper(AccelStepper::DRIVER, stepPin, dirPin);//스테퍼모터 핀 정의
 
