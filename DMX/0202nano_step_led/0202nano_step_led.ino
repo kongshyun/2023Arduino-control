@@ -12,7 +12,7 @@ AccelStepper myStepper(AccelStepper::DRIVER, stepPin, dirPin);//스테퍼모터 
 const int maxSpeed=25000;
 const int accel=1500;
 const int setSpeed=10000;  
-const int move=2000;//모터 이동할 스텝수
+const int move=60000;//모터 이동할 스텝수
 const int num=1; //반복할 회전 횟수
 
 
@@ -41,7 +41,7 @@ void loop() {
     // read recent DMX values and set pwm levels
     _LED_Dim();
     if(signal>50 & signal<100){
-      _Stepper_move(move,1000, num);
+      _Stepper_move(move,3200, num);
     }
     else if(signal>180){
       _Stepper_move(move,200, num);
