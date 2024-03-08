@@ -11,7 +11,7 @@ AccelStepper myStepper(AccelStepper::DRIVER, stepPin, dirPin);//스테퍼모터 
 int maxSpeed=500;
 int accel=500;
 int setSpeed=500;  
-int move=18000;//모터 이동할 스텝수
+int move=6400;//모터 이동할 스텝수
 int num=2; //반복할 회전 횟수
 
 
@@ -28,14 +28,13 @@ void _Stepper_move(int move , int num){
   myStepper.setMaxSpeed(maxSpeed);  // 최대속도 설정 (단위: 스텝/초)
   myStepper.setAcceleration(accel); // 가속도 설정 (단위: 스텝/초^2)
   myStepper.setSpeed(setSpeed); // 초기 속도 설정 (단위: 스텝/초)
-  int i=0;
-  while (i<num){
-    myStepper.moveTo(move);
-    while (myStepper.distanceToGo() != 0){myStepper.run();}delay(100);
-    myStepper.moveTo(0);
-    while (myStepper.distanceToGo() != 0){ myStepper.run();}delay(100);
-    i++;
-  }
+
+  myStepper.moveTo(move);
+  while (myStepper.distanceToGo() != 0){myStepper.run();}delay(100);
+  myStepper.moveTo(0);
+  while (myStepper.distanceToGo() != 0){ myStepper.run();}delay(100);
+
+  
 }
 
 void _Stepper_stop(){
