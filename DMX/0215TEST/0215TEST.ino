@@ -8,7 +8,7 @@ const int dirPin = 2;   // Dir핀 설정
 const int stepPin = 4;  // Step핀 설정
 #define motorInterfaceType 1
 AccelStepper myStepper(AccelStepper::DRIVER, stepPin, dirPin);//스테퍼모터 핀 정의
-const int STEPS_PER_REV = 200 * 32; // 1/32 스텝 모드일 때 1회전 당 스텝 수
+const int STEPS_PER_REV = 200 * 32; // 1/32 스텝 모드일 때 1회전 당 스텝 수 6400
 
 
 void setup() {
@@ -31,21 +31,30 @@ void loop() {
   int signal=DMXSerial.read(16);
   if (lastPacket < 5000) {
     _LED_Dim();
-    if(signal>50 & signal<100){
+    if(signal>125 & signal<127){//49~50퍼
       myStepper.setCurrentPosition(0);
-      moveClockwise(STEPS_PER_REV * 200); // 시계방향으로 20바퀴 회전
+      moveClockwise(STEPS_PER_REV * 3,500,100); // 반시계방향 회전
       delay(1000); // 회전 완료 후 1초 대기
       myStepper.setCurrentPosition(0);
-      moveCounterClockwise(STEPS_PER_REV * 200); // 반시계방향으로 20바퀴 회전
+      moveCounterClockwise(STEPS_PER_REV *3,500,100 ); //시계방향회전
       delay(1000); // 회전 완료 후 1초 대기
     }
     //myStepper.setCurrentPosition(0);
-    else if(signal>180) {
+    else if(signal>130 & signal<140) { //51~54퍼
       myStepper.setCurrentPosition(0);
-      moveCounterClockwise(STEPS_PER_REV * 330); // 시계방향으로 20바퀴 회전
+      moveClockwise(STEPS_PER_REV * 3,1000,500); // 시계방향으로 20바퀴 회전
       delay(1000); // 회전 완료 후 1초 대기
       myStepper.setCurrentPosition(0);
-      moveClockwise(STEPS_PER_REV * 330); // 반시계방향으로 20바퀴 회전
+      moveCounterClockwise(STEPS_PER_REV * 3,1000,500); // 반시계방향으로 20바퀴 회전
+      delay(1000); // 회전 완료 후 1초 대기
+    }
+    //myStepper.setCurrentPosition(0);
+    else if(signal>178) { //70퍼 이상
+      myStepper.setCurrentPosition(0);
+      moveClockwise(STEPS_PER_REV * 3,1000,500); // 시계방향으로 20바퀴 회전
+      delay(1000); // 회전 완료 후 1초 대기
+      myStepper.setCurrentPosition(0);
+      moveCounterClockwise(STEPS_PER_REV * 3,1000,500); // 반시계방향으로 20바퀴 회전
       delay(1000); // 회전 완료 후 1초 대기
     }
     else {
@@ -59,17 +68,17 @@ void loop() {
     }
 }
 
-void moveClockwise(long steps) {
-  myStepper.setMaxSpeed(1000);  // 최대속도 설정 (단위: 스텝/초)
-  myStepper.setAcceleration(500); // 가속도 설정 (단위: 스텝/초^2)
+void moveClockwise(long steps,long vel, long acel) {
+  myStepper.setMaxSpeed(vel);  // 최대속도 설정 (단위: 스텝/초)
+  myStepper.setAcceleration(acel); // 가속도 설정 (단위: 스텝/초^2)
   myStepper.moveTo(steps);
   myStepper.runToPosition();
 }
 
 // 반시계방향으로 주어진 스텝 수만큼 회전하는 함수
-void moveCounterClockwise(long steps) {
-  myStepper.setMaxSpeed(1000);  // 최대속도 설정 (단위: 스텝/초)
-  myStepper.setAcceleration(500); // 가속도 설정 (단위: 스텝/초^2)
+void moveCounterClockwise(long steps,long vel, long acel)  {
+  myStepper.setMaxSpeed(vel);  // 최대속도 설정 (단위: 스텝/초)
+  myStepper.setAcceleration(acel); // 가속도 설정 (단위: 스텝/초^2)
   myStepper.moveTo(-steps);
   myStepper.runToPosition();
 }

@@ -1,4 +1,13 @@
 
+ /*
+속도단위 steps/seconds
+Full Step (LLL): 1바퀴=200스텝
+Half Step (HLL): 1바퀴=400스텝
+Quarter step (LHL):1바퀴=800스텝
+Eighth step (HHL):1바퀴 1600스텝
+Sixteenth step (HHH): 1바퀴 3200스텝
+
+*/
 #include <DMXSerial.h>
 #include <DmxSimple.h>
 #include <AccelStepper.h>

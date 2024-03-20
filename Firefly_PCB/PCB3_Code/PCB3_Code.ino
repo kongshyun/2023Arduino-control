@@ -1,5 +1,4 @@
 
-
  /*
 속도단위 steps/seconds
 Full Step (LLL): 1바퀴=200스텝
@@ -26,7 +25,7 @@ const int revNum=4;
 
 void setup() {
   DMXSerial.init(DMXReceiver);
-  DMXSerial.write(14, 0);
+  DMXSerial.write(21, 0);
   pinMode(3, OUTPUT);
   pinMode(5, OUTPUT);
   pinMode(6, OUTPUT);
@@ -34,42 +33,42 @@ void setup() {
   pinMode(10, OUTPUT);
   pinMode(11, OUTPUT);
   myStepper.setCurrentPosition(0); //스텝모터 초기화
+
 }
 
 
 void loop() {
   unsigned long lastPacket = DMXSerial.noDataSince();
-  int signal=DMXSerial.read(14);
+  int signal=DMXSerial.read(21);
   if (lastPacket < 5000) {
     _LED_Dim();
     if(signal>25 & signal<49){
-      _Stepper_move(STEPS_PER_REV * revNum,100, 50);
-    }
-    else if(signal>52 & signal<75){
       _Stepper_move(STEPS_PER_REV * revNum,200, 100);
     }
+    else if(signal>52 & signal<75){
+      _Stepper_move(STEPS_PER_REV * revNum,500, 300);
+    }
     else if(signal>78 & signal<95){
-      _Stepper_move(STEPS_PER_REV * revNum,400, 300);
+      _Stepper_move(STEPS_PER_REV * revNum,1000, 500);
     }
     else if(signal>105 & signal<125){
-      _Stepper_move(STEPS_PER_REV * revNum,600, 500);
+      _Stepper_move(STEPS_PER_REV * revNum,2000, 1000);
     }
     else if(signal>128 & signal<150){
-      _Stepper_move(STEPS_PER_REV * revNum,1000, 600);
+      _Stepper_move(STEPS_PER_REV * revNum,3000, 2000);
     }
     else if(signal>155 & signal<175){
-      _Stepper_move(STEPS_PER_REV * revNum,1500, 1000);
+      _Stepper_move(STEPS_PER_REV * revNum,4000, 3000);
     }
     else if(signal>180 & signal<200){
-      _Stepper_move(STEPS_PER_REV * revNum,1700, 1000);
+      _Stepper_move(STEPS_PER_REV * revNum,5000, 3000);
     }
     else if(signal>206 & signal<220){
-      _Stepper_move(STEPS_PER_REV * revNum,2000, 1500);
+      _Stepper_move(STEPS_PER_REV * revNum,6000, 4000);
     }
     else if(signal>230 & signal<250){
-      _Stepper_move(STEPS_PER_REV * revNum,3000, 1500);
+      _Stepper_move(STEPS_PER_REV * revNum,8000, 6000);
     }
-    
   }
   else {
     _LED_Off();
@@ -83,7 +82,7 @@ void _Stepper_move(long int move , int vel, int acel){
   int i=0;
   myStepper.setMaxSpeed(vel);  // 최대속도 설정 (단위: 스텝/초)
   myStepper.setAcceleration(acel); // 가속도 설정 (단위: 스텝/초^2)
-  myStepper.setSpeed(vel); // 초기 속도 설정 (단위: 스텝/초)
+  myStepper.setSpeed(acel); // 초기 속도 설정 (단위: 스텝/초)
   while (i<num){
     myStepper.moveTo(move);
     while (myStepper.distanceToGo() != 0){
@@ -105,12 +104,12 @@ void _Stepper_stop(){
 }
 
 void _LED_Dim(){
-  analogWrite(5, DMXSerial.read(8));
-  analogWrite(6, DMXSerial.read(9));
-  analogWrite(9, DMXSerial.read(10));
-  analogWrite(10,DMXSerial.read(11));
-  analogWrite(11,DMXSerial.read(12));
-  analogWrite(3,DMXSerial.read(13));
+  analogWrite(3,DMXSerial.read(15));
+  analogWrite(5, DMXSerial.read(16));
+  analogWrite(6, DMXSerial.read(17));
+  analogWrite(9, DMXSerial.read(18));
+  analogWrite(10,DMXSerial.read(19));
+  analogWrite(11,DMXSerial.read(20));
 }
 
 void _LED_Off(){
