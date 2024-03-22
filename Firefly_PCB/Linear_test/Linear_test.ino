@@ -26,48 +26,17 @@ const int revNum=4;
 
 void setup() {
   DMXSerial.init(DMXReceiver);
-  DMXSerial.write(21, 0);
-  pinMode(3, OUTPUT);
-  pinMode(5, OUTPUT);
-  pinMode(6, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(11, OUTPUT);
+  DMXSerial.write(30, 0);
   myStepper.setCurrentPosition(0); //스텝모터 초기화
 }
 
 
 void loop() {
   unsigned long lastPacket = DMXSerial.noDataSince();
-  int signal=DMXSerial.read(21);
+  int signal=DMXSerial.read(30);
   if (lastPacket < 5000) {
-    _LED_Dim();
-    if(signal>25 & signal<49){
-      _Stepper_move(STEPS_PER_REV * revNum,100, 50);
-    }
-    else if(signal>52 & signal<75){
-      _Stepper_move(STEPS_PER_REV * revNum,200, 100);
-    }
-    else if(signal>78 & signal<95){
-      _Stepper_move(STEPS_PER_REV * revNum,400, 300);
-    }
-    else if(signal>105 & signal<125){
-      _Stepper_move(STEPS_PER_REV * revNum,600, 500);
-    }
-    else if(signal>128 & signal<150){
-      _Stepper_move(STEPS_PER_REV * revNum,1000, 600);
-    }
-    else if(signal>155 & signal<175){
-      _Stepper_move(STEPS_PER_REV * revNum,1500, 1000);
-    }
-    else if(signal>180 & signal<200){
-      _Stepper_move(STEPS_PER_REV * revNum,1700, 1000);
-    }
-    else if(signal>206 & signal<220){
-      _Stepper_move(STEPS_PER_REV * revNum,2000, 1500);
-    }
-    else if(signal>230 & signal<250){
-      _Stepper_move(STEPS_PER_REV * revNum,3000, 1500);
+    if(signal>50){
+      _Stepper_move(STEPS_PER_REV * revNum,500, 250);
     }
     
   }
@@ -87,12 +56,10 @@ void _Stepper_move(long int move , int vel, int acel){
   while (i<num){
     myStepper.moveTo(move);
     while (myStepper.distanceToGo() != 0){
-      _LED_Dim();
       myStepper.run();
     }
     myStepper.moveTo(0);
     while (myStepper.distanceToGo() != 0){ 
-      _LED_Dim();
       myStepper.run();
     }
     i++;
@@ -102,22 +69,4 @@ void _Stepper_move(long int move , int vel, int acel){
 void _Stepper_stop(){
   myStepper.stop();
   myStepper.disableOutputs();  
-}
-
-void _LED_Dim(){
-  analogWrite(5, DMXSerial.read(15));
-  analogWrite(6, DMXSerial.read(16));
-  analogWrite(9, DMXSerial.read(17));
-  analogWrite(10,DMXSerial.read(18));
-  analogWrite(11,DMXSerial.read(19));
-  analogWrite(3,DMXSerial.read(20));
-}
-
-void _LED_Off(){
-  analogWrite(3, 0);
-  analogWrite(5, 0);
-  analogWrite(6, 0);
-  analogWrite(9, 0);
-  analogWrite(10,0);
-  analogWrite(11,0);
 }
