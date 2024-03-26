@@ -41,7 +41,6 @@ void loop() {
     
   }
   else {
-    _LED_Off();
     _Stepper_stop();
   }
 }

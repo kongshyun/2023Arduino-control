@@ -4,7 +4,7 @@ int val;
 void setup(){
   Serial.begin(9600);
   pinMode(inpin,INPUT_PULLUP);
-  pinMode(inpin,OUTPUT);
+  //pinMode(inpin,OUTPUT);
   digitalWrite(7,HIGH);
   delay(500);
   digitalWrite(7,LOW);
