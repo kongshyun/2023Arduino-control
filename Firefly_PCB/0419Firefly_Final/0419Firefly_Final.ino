@@ -1,18 +1,29 @@
-
-
- /*
-속도단위 steps/seconds
-Full Step (LLL): 1바퀴=200스텝
-Half Step (HLL): 1바퀴=400스텝
-Quarter step (LHL):1바퀴=800스텝
-Eighth step (HHL):1바퀴 1600스텝
-Sixteenth step (HHH): 1바퀴 3200스텝
-
-*/
+/*
+ 2024년 04월 19일
+ [청와대 사랑채, 정원 반딧불]- 최종 아두이노 코드
+ 
+ '★' 표시 줄에서 채널링하기.
+ 
+ - led채널에 따라 PCB의 LED가 디밍된다.
+ - Stepper 채널값에 따라 구동부가 1회 반복 회전 한다. 1회 반복 회전하는 동안에는 DMX값을 인식 안하고, 회전한후 대기상태에서만 DMX값을 읽는다.
+ */
 
 #include <DMXSerial.h>
 #include <DmxSimple.h>
 #include <AccelStepper.h>
+
+
+//★★★★★★★
+//6개 LED, 1개 스텝모터 읽을 채널 설정
+const int led1_ch=1;
+const int led2_ch=2;
+const int led3_ch=3;
+const int led4_ch=4;
+const int led5_ch=5;
+const int led6_ch=6;
+const int stepper_ch=7;
+//★★★★★★★★
+
 
 //스텝모터 핀 설정
 const int dirPin = 2;   // Dir핀 설정
@@ -26,14 +37,6 @@ const int revNum=4; //회전 바퀴수
 // ---> STPES_PER_REV x revNum = 스텝모터 4바퀴 회전.(1/32 모드일때)
 
 
-//6개 LED, 1개 스텝모터 읽을 채널 설정
-const int led1_ch=1;
-const int led2_ch=2;
-const int led3_ch=3;
-const int led4_ch=4;
-const int led5_ch=5;
-const int led6_ch=6;
-const int stepper_ch=7;
 
 
 
