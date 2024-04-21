@@ -37,9 +37,6 @@ const int revNum=4; //회전 바퀴수
 // ---> STPES_PER_REV x revNum = 스텝모터 4바퀴 회전.(1/32 모드일때)
 
 
-
-
-
 void setup() {
   DMXSerial.init(DMXReceiver);
   DMXSerial.write(stepper_ch, 0);
@@ -58,31 +55,31 @@ void loop() {
   int signal=DMXSerial.read(stepper_ch); //스텝모터 해당 채널의 값을 읽어옴.
   if (lastPacket < 5000) {
     _LED_Dim();
-    if(signal>25 & signal<50){
+    if(signal>25 && signal<50){
       _Stepper_move(STEPS_PER_REV * revNum,100, 50);
     }
-    else if(signal>51 & signal<76){
+    else if(signal>51 && signal<76){
       _Stepper_move(STEPS_PER_REV * revNum,200, 100);
     }
-    else if(signal>77 & signal<101){
+    else if(signal>77 && signal<101){
       _Stepper_move(STEPS_PER_REV * revNum,400, 300);
     }
-    else if(signal>102 & signal<127){
+    else if(signal>102 && signal<127){
       _Stepper_move(STEPS_PER_REV * revNum,600, 500);
     }
-    else if(signal>128 & signal<153){
+    else if(signal>128 && signal<153){
       _Stepper_move(STEPS_PER_REV * revNum,1000, 600);
     }
-    else if(signal>154 & signal<178){
+    else if(signal>154 && signal<178){
       _Stepper_move(STEPS_PER_REV * revNum,1500, 1000);
     }
-    else if(signal>179 & signal<204){
+    else if(signal>179 && signal<204){
       _Stepper_move(STEPS_PER_REV * revNum,2000, 1300);
     }
-    else if(signal>205 & signal<229){
+    else if(signal>205 && signal<229){
       _Stepper_move(STEPS_PER_REV * revNum,2500, 1500);
     }
-    else if(signal>230 & signal<255){
+    else if(signal>230 && signal<255){
       _Stepper_move(STEPS_PER_REV * revNum,3000, 2000);
     }
     

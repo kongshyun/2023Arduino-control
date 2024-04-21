@@ -13,8 +13,6 @@ void setup() {
 
 
 void loop() {
-
-
 RGB_update(0,0,0,0);//LED#, RED, GREEN, BLUE
 delay(1000);
 
@@ -103,5 +101,3 @@ void RGB_update(int LED, byte RED, byte GREEN, byte BLUE) {
 
 // all done!
 }//void RGB_update
-
-
